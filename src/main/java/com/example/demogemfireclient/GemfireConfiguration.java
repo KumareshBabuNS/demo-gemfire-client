@@ -11,8 +11,8 @@ import org.springframework.data.gemfire.client.ClientRegionFactoryBean;
 import org.springframework.data.gemfire.client.PoolFactoryBean;
 import org.springframework.data.gemfire.function.config.EnableGemfireFunctionExecutions;
 import org.springframework.data.gemfire.support.ConnectionEndpoint;
+import org.springframework.data.gemfire.util.ArrayUtils;
 
-import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -60,9 +60,7 @@ public class GemfireConfiguration {
 		factorialsRegion.setPool(gemfirePool);
 		factorialsRegion.setShortcut(ClientRegionShortcut.PROXY);
 
-		FactorialCacheListener factorialCacheListener = new FactorialCacheListener();
-		factorialsRegion.setCacheListeners((FactorialCacheListener[]) Arrays.asList(factorialCacheListener).toArray());
-
+		factorialsRegion.setCacheListeners(ArrayUtils.asArray(new FactorialCacheListener()));
 
 		return factorialsRegion;
 
