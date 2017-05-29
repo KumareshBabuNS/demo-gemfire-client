@@ -5,11 +5,10 @@ import com.gemstone.gemfire.cache.client.Pool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.gemfire.function.execution.GemfireOnServersFunctionTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * Created by derrickwong on 29/5/2017.
@@ -18,38 +17,40 @@ import javax.annotation.Resource;
 @Slf4j
 public class WebController{
 
+	@Resource(name = "ClientHealth")
+	private Region<String, ClientHealthInfo> clientHealth;
 
-	@Resource(name = "Factorials")
-	private Region<Long, Long> factorials;
-
-	@GetMapping("/")
-	public String hi(){
-		return "Hello";
-	}
-
-	@GetMapping("/all")
-	public Iterable<Long> getAll(){
-		return factorials.keySet();
-	}
-
-	@GetMapping("/find/{key}")
-	public Long findOne(@PathVariable("key") Long key){
-		return factorials.get(key);
-	}
-
-	@GetMapping("/put/{key}/{value}")
-	public void add(@PathVariable("key") Long key, @PathVariable("value") Long value){
-		log.info(key + " " + value);
-		factorials.put(key, value);
-	}
 
 	@Autowired
 	private Pool gemfirePool;
-	private GemfireOnServersFunctionTemplate gemfireOnServersFunctionTemplate = new GemfireOnServersFunctionTemplate(gemfirePool);
 
 	@GetMapping("/func")
 	public Iterable<String> func(){
+		GemfireOnServersFunctionTemplate gemfireOnServersFunctionTemplate = new GemfireOnServersFunctionTemplate(gemfirePool);
 		Iterable<String> result = gemfireOnServersFunctionTemplate.execute("function1");
 		return result;
+	}
+
+	@GetMapping("/randomEvent")
+	public void healthEvent(){
+
+		ClientHealthInfo clientHealthInfo = new ClientHealthInfo(UUID.randomUUID().toString(), 1000L, 1000L, 100, 100L, 1000L, 100L, 100L, 10L, 10L);
+		log.info("put " + clientHealthInfo.getAccountId());
+		clientHealth.put(clientHealthInfo.getAccountId(), clientHealthInfo);
+
+	}
+
+	@GetMapping("/clientHealthInfo/{id}")
+	public ClientHealthInfo getOne(@PathVariable("id") String id){
+
+		return clientHealth.get(id);
+
+	}
+
+	@PostMapping("/clientHealthInfo")
+	public void updateClientHealthInfo(@RequestBody ClientHealthInfo clientHealthInfo){
+
+		clientHealth.put(clientHealthInfo.getAccountId(), clientHealthInfo);
+
 	}
 }

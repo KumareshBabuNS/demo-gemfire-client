@@ -11,7 +11,6 @@ import org.springframework.data.gemfire.client.ClientRegionFactoryBean;
 import org.springframework.data.gemfire.client.PoolFactoryBean;
 import org.springframework.data.gemfire.function.config.EnableGemfireFunctionExecutions;
 import org.springframework.data.gemfire.support.ConnectionEndpoint;
-import org.springframework.data.gemfire.util.ArrayUtils;
 
 import java.util.Properties;
 
@@ -51,18 +50,33 @@ public class GemfireConfiguration {
 		return gemfireCache;
 	}
 
-	@Bean(name = "Factorials")
-    ClientRegionFactoryBean<Long, Long> factorialsRegion(GemFireCache gemfireCache, Pool gemfirePool){
+//	@Bean(name = "Factorials")
+//    ClientRegionFactoryBean<Long, Long> factorialsRegion(GemFireCache gemfireCache, Pool gemfirePool){
+//
+//		ClientRegionFactoryBean<Long, Long> factorialsRegion = new ClientRegionFactoryBean<>();
+//		factorialsRegion.setCache(gemfireCache);
+//		factorialsRegion.setName("Factorials");
+//		factorialsRegion.setPool(gemfirePool);
+//		factorialsRegion.setShortcut(ClientRegionShortcut.PROXY);
+//
+//		factorialsRegion.setCacheListeners(ArrayUtils.asArray(new FactorialCacheListener()));
+//
+//		return factorialsRegion;
+//
+//	}
 
-		ClientRegionFactoryBean<Long, Long> factorialsRegion = new ClientRegionFactoryBean<>();
-		factorialsRegion.setCache(gemfireCache);
-		factorialsRegion.setName("Factorials");
-		factorialsRegion.setPool(gemfirePool);
-		factorialsRegion.setShortcut(ClientRegionShortcut.PROXY);
 
-		factorialsRegion.setCacheListeners(ArrayUtils.asArray(new FactorialCacheListener()));
+	@Bean(name = "ClientHealth")
+	ClientRegionFactoryBean<String, ClientHealthInfo> clientHealthRegion(GemFireCache gemfireCache, Pool gemfirePool){
 
-		return factorialsRegion;
+		ClientRegionFactoryBean<String, ClientHealthInfo> clientHealthRegion = new ClientRegionFactoryBean<>();
+		clientHealthRegion.setCache(gemfireCache);
+		clientHealthRegion.setName("ClientHealth");
+		clientHealthRegion.setPool(gemfirePool);
+		clientHealthRegion.setShortcut(ClientRegionShortcut.PROXY);
+
+
+		return clientHealthRegion;
 
 	}
 
