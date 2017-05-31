@@ -47,24 +47,10 @@ public class GemfireConfiguration {
 		ClientCacheFactoryBean gemfireCache = new ClientCacheFactoryBean();
 		gemfireCache.setClose(true);
 		gemfireCache.setProperties(gemfireProperties());
+		gemfireCache.setPdxReadSerialized(true);
+
 		return gemfireCache;
 	}
-
-//	@Bean(name = "Factorials")
-//    ClientRegionFactoryBean<Long, Long> factorialsRegion(GemFireCache gemfireCache, Pool gemfirePool){
-//
-//		ClientRegionFactoryBean<Long, Long> factorialsRegion = new ClientRegionFactoryBean<>();
-//		factorialsRegion.setCache(gemfireCache);
-//		factorialsRegion.setName("Factorials");
-//		factorialsRegion.setPool(gemfirePool);
-//		factorialsRegion.setShortcut(ClientRegionShortcut.PROXY);
-//
-//		factorialsRegion.setCacheListeners(ArrayUtils.asArray(new FactorialCacheListener()));
-//
-//		return factorialsRegion;
-//
-//	}
-
 
 	@Bean(name = "ClientHealth")
 	ClientRegionFactoryBean<String, ClientHealthInfo> clientHealthRegion(GemFireCache gemfireCache, Pool gemfirePool){
@@ -75,9 +61,9 @@ public class GemfireConfiguration {
 		clientHealthRegion.setPool(gemfirePool);
 		clientHealthRegion.setShortcut(ClientRegionShortcut.PROXY);
 
-
 		return clientHealthRegion;
 
 	}
+
 
 }

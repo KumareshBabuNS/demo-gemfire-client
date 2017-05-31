@@ -1,13 +1,12 @@
 package com.example.demogemfireclient;
 
-import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.cache.client.Pool;
+import com.gemstone.gemfire.pdx.PdxInstance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.gemfire.function.execution.GemfireOnServersFunctionTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.UUID;
 
 /**
@@ -17,9 +16,9 @@ import java.util.UUID;
 @Slf4j
 public class WebController{
 
-	@Resource(name = "ClientHealth")
-	private Region<String, ClientHealthInfo> clientHealth;
 
+	@Autowired
+	private ClientHealthInfoRepository clientHealthInfoRepository;
 
 	@Autowired
 	private Pool gemfirePool;
@@ -33,24 +32,18 @@ public class WebController{
 
 	@GetMapping("/randomEvent")
 	public void healthEvent(){
-
 		ClientHealthInfo clientHealthInfo = new ClientHealthInfo(UUID.randomUUID().toString(), 1000L, 1000L, 100, 100L, 1000L, 100L, 100L, 10L, 10L);
-		log.info("put " + clientHealthInfo.getAccountId());
-		clientHealth.put(clientHealthInfo.getAccountId(), clientHealthInfo);
-
+		log.debug("put " + clientHealthInfo.getAccountId());
+		clientHealthInfoRepository.save(clientHealthInfo);
 	}
 
 	@GetMapping("/clientHealthInfo/{id}")
 	public ClientHealthInfo getOne(@PathVariable("id") String id){
-
-		return clientHealth.get(id);
-
+		return (ClientHealthInfo) ((PdxInstance)clientHealthInfoRepository.findOne(id)).getObject();
 	}
 
 	@PostMapping("/clientHealthInfo")
 	public void updateClientHealthInfo(@RequestBody ClientHealthInfo clientHealthInfo){
-
-		clientHealth.put(clientHealthInfo.getAccountId(), clientHealthInfo);
-
+		clientHealthInfoRepository.save(clientHealthInfo);
 	}
 }
