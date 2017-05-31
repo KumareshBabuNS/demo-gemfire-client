@@ -39,7 +39,9 @@ public class WebController{
 
 	@GetMapping("/clientHealthInfo/{id}")
 	public ClientHealthInfo getOne(@PathVariable("id") String id){
-		return (ClientHealthInfo) ((PdxInstance)clientHealthInfoRepository.findOne(id)).getObject();
+		PdxInstance clientHealthInfo = (PdxInstance)clientHealthInfoRepository.findOne(id);
+		if(clientHealthInfo==null) return null;
+		return (ClientHealthInfo)clientHealthInfo.getObject();
 	}
 
 	@PostMapping("/clientHealthInfo")
