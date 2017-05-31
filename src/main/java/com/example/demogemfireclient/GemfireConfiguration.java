@@ -39,6 +39,7 @@ public class GemfireConfiguration {
 		gemfirePool.setThreadLocalConnections(false);
 		gemfirePool.addLocators(new ConnectionEndpoint(host, port));
 
+
 		return gemfirePool;
 	}
 

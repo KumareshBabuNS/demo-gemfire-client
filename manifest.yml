@@ -2,7 +2,7 @@
 applications:
 - name: GemfireClientApp
   memory: 2g
-  random-route: true
+  host: gemfireclient
   path: target/demo-gemfire-client-0.0.1-SNAPSHOT.jar
   services:
   - Gemfire
