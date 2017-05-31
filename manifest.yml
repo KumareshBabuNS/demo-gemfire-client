@@ -1,0 +1,6 @@
+---
+applications:
+- name: GemfireClientApp
+  memory: 2g
+  random-route: true
+  path: target/demo-gemfire-client-0.0.1-SNAPSHOT.jar
