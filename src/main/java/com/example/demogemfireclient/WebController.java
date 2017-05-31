@@ -20,6 +20,11 @@ public class WebController{
 	@Autowired
 	private ClientHealthInfoRepository clientHealthInfoRepository;
 
+
+	@Autowired
+	private ClientHealthInfoRepository clientHealthInfoRepository2;
+
+
 	@Autowired
 	private Pool gemfirePool;
 
@@ -37,9 +42,23 @@ public class WebController{
 		clientHealthInfoRepository.save(clientHealthInfo);
 	}
 
+	@GetMapping("/randomEvent2")
+	public void healthEvent2(){
+		ClientHealthInfo clientHealthInfo = new ClientHealthInfo(UUID.randomUUID().toString(), 1000L, 1000L, 100, 100L, 1000L, 100L, 100L, 10L, 10L);
+		log.debug("put " + clientHealthInfo.getAccountId());
+		clientHealthInfoRepository2.save(clientHealthInfo);
+	}
+
 	@GetMapping("/clientHealthInfo/{id}")
 	public ClientHealthInfo getOne(@PathVariable("id") String id){
 		PdxInstance clientHealthInfo = (PdxInstance)clientHealthInfoRepository.findOne(id);
+		if(clientHealthInfo==null) return null;
+		return (ClientHealthInfo)clientHealthInfo.getObject();
+	}
+
+	@GetMapping("/clientHealthInfo2/{id}")
+	public ClientHealthInfo getOne2(@PathVariable("id") String id){
+		PdxInstance clientHealthInfo = (PdxInstance)clientHealthInfoRepository2.findOne(id);
 		if(clientHealthInfo==null) return null;
 		return (ClientHealthInfo)clientHealthInfo.getObject();
 	}

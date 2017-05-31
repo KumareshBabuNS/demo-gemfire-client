@@ -7,12 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.gemfire.mapping.Region;
 
 /**
  * Created by derrickwong on 29/5/2017.
  */
-@Data @NoArgsConstructor @Region("ClientHealth")
+@Data @NoArgsConstructor
 public class ClientHealthInfo
         implements PdxSerializable {
 

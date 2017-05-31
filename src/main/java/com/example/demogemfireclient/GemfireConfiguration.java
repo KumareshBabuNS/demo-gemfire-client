@@ -67,4 +67,18 @@ public class GemfireConfiguration {
 	}
 
 
+	@Bean(name = "ClientHealth2")
+	ClientRegionFactoryBean<String, ClientHealthInfo> clientHealthRegion2(GemFireCache gemfireCache, Pool gemfirePool){
+
+		ClientRegionFactoryBean<String, ClientHealthInfo> clientHealthRegion2 = new ClientRegionFactoryBean<>();
+		clientHealthRegion2.setCache(gemfireCache);
+		clientHealthRegion2.setName("ClientHealth2");
+		clientHealthRegion2.setPool(gemfirePool);
+		clientHealthRegion2.setShortcut(ClientRegionShortcut.PROXY);
+
+		return clientHealthRegion2;
+
+	}
+
+
 }
