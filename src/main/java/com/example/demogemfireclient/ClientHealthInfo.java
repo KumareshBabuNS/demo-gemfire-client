@@ -16,33 +16,44 @@ import org.springframework.data.gemfire.mapping.Region;
 public class ClientHealthInfo
         implements PdxSerializable {
 
+    public static final String ACCOUNT_ID = "accountId";
+    public static final String STEPS = "steps";
+    public static final String CALORIES_BURNT = "caloriesBurnt";
+    public static final String WEIGHT = "weight";
+    public static final String ENERGY_BURNT = "energyBurnt";
+    public static final String ENERGY_BURNT_GOAL = "energyBurntGoal";
+    public static final String EXERCISE_TIME = "exerciseTime";
+    public static final String EXERCISE_TIME_GOAL = "exerciseTimeGoal";
+    public static final String STAND_HOURS = "standHours";
+    public static final String STAND_HOURS_GOAL = "standHoursGoal";
+
     @Override
     public void toData(PdxWriter pdxWriter) {
-        pdxWriter.writeString("accountId", accountId)
-                .markIdentityField("accountId");
-        pdxWriter.writeLong("steps", steps);
-        pdxWriter.writeLong("caloriesBurnt", caloriesBurnt);
-        pdxWriter.writeInt("weight", weight);
-        pdxWriter.writeLong("energyBurnt", energyBurnt);
-        pdxWriter.writeLong("energyBurntGoal", energyBurntGoal);
-        pdxWriter.writeLong("exerciseTime", exerciseTime);
-        pdxWriter.writeLong("exerciseTimeGoal", exerciseTimeGoal);
-        pdxWriter.writeLong("standHours", standHours);
-        pdxWriter.writeLong("standHoursGoal", standHoursGoal);
+        pdxWriter.writeString(ACCOUNT_ID, accountId)
+                .markIdentityField(ACCOUNT_ID);
+        pdxWriter.writeLong(STEPS, steps);
+        pdxWriter.writeLong(CALORIES_BURNT, caloriesBurnt);
+        pdxWriter.writeInt(WEIGHT, weight);
+        pdxWriter.writeLong(ENERGY_BURNT, energyBurnt);
+        pdxWriter.writeLong(ENERGY_BURNT_GOAL, energyBurntGoal);
+        pdxWriter.writeLong(EXERCISE_TIME, exerciseTime);
+        pdxWriter.writeLong(EXERCISE_TIME_GOAL, exerciseTimeGoal);
+        pdxWriter.writeLong(STAND_HOURS, standHours);
+        pdxWriter.writeLong(STAND_HOURS_GOAL, standHoursGoal);
     }
 
     @Override
     public void fromData(PdxReader pdxReader) {
-        accountId=pdxReader.readString("accountId");
-        steps=pdxReader.readLong("steps");
-        caloriesBurnt=pdxReader.readLong("caloriesBurnt");
-        weight=pdxReader.readInt("weight");
-        energyBurnt=pdxReader.readLong("energyBurnt");
-        energyBurntGoal=pdxReader.readLong("energyBurntGoal");
-        exerciseTime=pdxReader.readLong("exerciseTime");
-        exerciseTimeGoal=pdxReader.readLong("exerciseTimeGoal");
-        standHours=pdxReader.readLong("standHours");
-        standHoursGoal=pdxReader.readLong("standHoursGoal");
+        accountId=pdxReader.readString(ACCOUNT_ID);
+        steps=pdxReader.readLong(STEPS);
+        caloriesBurnt=pdxReader.readLong(CALORIES_BURNT);
+        weight=pdxReader.readInt(WEIGHT);
+        energyBurnt=pdxReader.readLong(ENERGY_BURNT);
+        energyBurntGoal=pdxReader.readLong(ENERGY_BURNT_GOAL);
+        exerciseTime=pdxReader.readLong(EXERCISE_TIME);
+        exerciseTimeGoal=pdxReader.readLong(EXERCISE_TIME_GOAL);
+        standHours=pdxReader.readLong(STAND_HOURS);
+        standHoursGoal=pdxReader.readLong(STAND_HOURS_GOAL);
     }
 
     @Id
