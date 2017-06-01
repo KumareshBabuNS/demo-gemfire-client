@@ -35,36 +35,42 @@ public class WebController{
 		return result;
 	}
 
-	@GetMapping("/randomEvent")
-	public void healthEvent(){
+	@GetMapping("/randomEvent_http")
+	public void healthEventByHttp(){
 		ClientHealthInfo clientHealthInfo = new ClientHealthInfo(UUID.randomUUID().toString(), 1000L, 1000L, 100, 100L, 1000L, 100L, 100L, 10L, 10L);
 		log.debug("put " + clientHealthInfo.getAccountId());
 		clientHealthInfoRepository.save(clientHealthInfo);
 	}
 
-	@GetMapping("/randomEvent2")
-	public void healthEvent2(){
+	@GetMapping("/randomEvent_db")
+	public void healthEventByDb(){
 		ClientHealthInfo clientHealthInfo = new ClientHealthInfo(UUID.randomUUID().toString(), 1000L, 1000L, 100, 100L, 1000L, 100L, 100L, 10L, 10L);
 		log.debug("put " + clientHealthInfo.getAccountId());
 		clientHealthInfoRepository2.save(clientHealthInfo);
 	}
 
-	@GetMapping("/clientHealthInfo/{id}")
-	public ClientHealthInfo getOne(@PathVariable("id") String id){
+	@GetMapping("/clientHealthInfo_http/{id}")
+	public ClientHealthInfo getOneByHttp(@PathVariable("id") String id){
 		PdxInstance clientHealthInfo = (PdxInstance)clientHealthInfoRepository.findOne(id);
 		if(clientHealthInfo==null) return null;
 		return (ClientHealthInfo)clientHealthInfo.getObject();
 	}
 
-	@GetMapping("/clientHealthInfo2/{id}")
-	public ClientHealthInfo getOne2(@PathVariable("id") String id){
+	@GetMapping("/clientHealthInfo_db/{id}")
+	public ClientHealthInfo getOneByDb(@PathVariable("id") String id){
 		PdxInstance clientHealthInfo = (PdxInstance)clientHealthInfoRepository2.findOne(id);
 		if(clientHealthInfo==null) return null;
 		return (ClientHealthInfo)clientHealthInfo.getObject();
 	}
 
-	@PostMapping("/clientHealthInfo")
-	public void updateClientHealthInfo(@RequestBody ClientHealthInfo clientHealthInfo){
+	@PostMapping("/clientHealthInfo_http")
+	public void updateClientHealthInfoByHttp(@RequestBody ClientHealthInfo clientHealthInfo){
 		clientHealthInfoRepository.save(clientHealthInfo);
+	}
+
+
+	@PostMapping("/clientHealthInfo_db")
+	public void updateClientHealthInfoByDb(@RequestBody ClientHealthInfo clientHealthInfo){
+		clientHealthInfoRepository2.save(clientHealthInfo);
 	}
 }

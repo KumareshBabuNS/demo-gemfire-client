@@ -1,3 +1,7 @@
 locator:
   host: ${vcap.services.Gemfire.credentials.LOCATOR_HOST:localhost}
   port: ${vcap.services.Gemfire.credentials.LOCATOR_PORT:10334}
+logging:
+  level:
+    com:
+      gemstone: debug
