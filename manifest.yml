@@ -4,5 +4,13 @@ applications:
   memory: 2g
   host: gemfireclient
   path: target/demo-gemfire-client-0.0.1-SNAPSHOT.jar
+  instances: 1
+  services:
+  - Gemfire
+- name: GemfireClientAppRead
+  memory: 2g
+  host: gemfireclientread
+  path: target/demo-gemfire-client-0.0.1-SNAPSHOT.jar
+  instances: 1
   services:
   - Gemfire
